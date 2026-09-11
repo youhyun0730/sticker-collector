@@ -17,6 +17,7 @@ struct StickerView: View {
             fallbackHint: instance.fallbackEffectID
         )
         let tilt = fixedTilt ?? engine.tilt(for: instance.id)
+        let flow = fixedTilt == nil ? engine.flow(for: instance.id) : .zero
 
         GeometryReader { proxy in
             let size = proxy.size
@@ -29,6 +30,7 @@ struct StickerView: View {
                         instance: instance,
                         size: size,
                         tilt: tilt,
+                        flow: flow,
                         time: engine.time
                     ),
                     maxSampleOffset: StickerShader.maxSampleOffset(for: size)

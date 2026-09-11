@@ -4,3 +4,7 @@ DerivedData/
 *.xcuserstate
 xcuserdata/
 *.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+
+# ShaderPreview の中間物と焼き出し
+.build/
+out/

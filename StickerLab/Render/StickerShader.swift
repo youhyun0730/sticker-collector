@@ -20,12 +20,14 @@ enum StickerShader {
         instance: StickerInstance,
         size: CGSize,
         tilt: SIMD2<Float>,
+        flow: SIMD2<Float>,
         time: Double
     ) -> Shader {
         let function = ShaderFunction(library: .default, name: definition.shaderFunction)
         return Shader(function: function, arguments: [
             .float2(size),
             .float2(tilt.x, tilt.y),
+            .float2(flow.x, flow.y),
             .float(Float(time)),
             .float(instance.renderSeed),
             .floatArray(packedParams(definition: definition, instance: instance))
@@ -33,10 +35,12 @@ enum StickerShader {
     }
 
     /// シェーダーが pos の外側をどれだけ参照するか。
-    /// ぷっくりの法線推定と水入りの屈折がここに収まる必要がある。
+    ///
+    /// ドームの距離場は最大で minDim * 0.20 まで読む。屈折のぶんを足して余裕を持たせる。
+    /// ここが足りないとサンプルが切り詰められ、縁の法線が崩れて盛り上がりが欠ける。
     static func maxSampleOffset(for size: CGSize) -> CGSize {
         let minDim = min(size.width, size.height)
-        let reach = max(12, minDim * 0.14)
+        let reach = max(16, minDim * 0.26)
         return CGSize(width: reach, height: reach)
     }
 }

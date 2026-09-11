@@ -188,6 +188,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = R7H7YZ6XQL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSMotionUsageDescription = "端末の傾きに合わせてシールの光沢を変化させるために使用します。";
@@ -217,6 +218,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = R7H7YZ6XQL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSMotionUsageDescription = "端末の傾きに合わせてシールの光沢を変化させるために使用します。";
@@ -241,20 +243,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A10000000000000000000014 /* Build configuration list for PBXProject "StickerLab" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A10000000000000000000015 /* Debug */,
-				A10000000000000000000016 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		A10000000000000000000010 /* Build configuration list for PBXNativeTarget "StickerLab" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A10000000000000000000017 /* Debug */,
 				A10000000000000000000018 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A10000000000000000000014 /* Build configuration list for PBXProject "StickerLab" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A10000000000000000000015 /* Debug */,
+				A10000000000000000000016 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -146,6 +146,14 @@ final class MotionEngine: NSObject, ObservableObject {
         followers[id]?.value ?? rawTilt
     }
 
+    /// 個体の傾きが毎秒どれだけ動いているか。
+    ///
+    /// シェーダーは状態を持てないため、「今まさに動かされている」ことは
+    /// この値でしか伝えられない。箔の一閃と液面の波立ちがこれを読む。
+    func flow(for id: UUID) -> SIMD2<Float> {
+        followers[id]?.velocity ?? .zero
+    }
+
     var registeredCount: Int { followers.count }
 
     // MARK: - ばね

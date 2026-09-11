@@ -1,75 +1,461 @@
 [
   {
     "id": "flat.foil.v1",
-    "version": 1,
+    "version": 2,
     "displayName": "フラット（ホロ箔）",
     "material": "flat",
     "shaderFunction": "fx_flatFoil",
     "fallbackEffectID": null,
     "paramSchema": [
-      { "name": "bandDensity",    "min": 2.0,   "max": 9.0,  "distribution": "uniform",   "note": "虹帯の本数" },
-      { "name": "hueOffset",      "min": 0.0,   "max": 1.0,  "distribution": "uniform",   "note": "色相の開始位置" },
-      { "name": "bandAngle",      "min": 0.0,   "max": 3.14159, "distribution": "uniform","note": "帯の向き" },
-      { "name": "sparkleDensity", "min": 8.0,   "max": 26.0, "distribution": "uniform",   "note": "キラキラ粒の密度" },
-      { "name": "flowSpeed",      "min": 0.02,  "max": 0.22, "distribution": "uniform",   "note": "流動速度" },
-      { "name": "intensity",      "min": 0.35,  "max": 0.75, "distribution": "centered",  "note": "全体の強さ" },
-      { "name": "pattern",        "min": 0.0,   "max": 2.0,  "distribution": "quantized", "steps": 3, "note": "0=線状 1=同心円 2=格子" }
+      {
+        "name": "patternType",
+        "min": 0.0,
+        "max": 3.0,
+        "distribution": "quantized",
+        "steps": 4,
+        "note": "0=ダイヤ 1=格子 2=線 3=六角"
+      },
+      {
+        "name": "patternScale",
+        "min": 14.0,
+        "max": 46.0,
+        "distribution": "uniform",
+        "note": "模様の目の細かさ"
+      },
+      {
+        "name": "patternDepth",
+        "min": 0.14,
+        "max": 0.48,
+        "distribution": "centered",
+        "note": "模様の出方の強さ"
+      },
+      {
+        "name": "grainScale",
+        "min": 40.0,
+        "max": 140.0,
+        "distribution": "uniform",
+        "note": "ざらつきの細かさ"
+      },
+      {
+        "name": "grainDepth",
+        "min": 0.08,
+        "max": 0.34,
+        "distribution": "centered",
+        "note": "ざらつきの強さ"
+      },
+      {
+        "name": "hueBase",
+        "min": 0.0,
+        "max": 1.0,
+        "distribution": "uniform",
+        "note": "箔の色の出発点と向き"
+      },
+      {
+        "name": "hueSpread",
+        "min": 0.8,
+        "max": 3.2,
+        "distribution": "uniform",
+        "note": "面内で色が何回入れ替わるか"
+      },
+      {
+        "name": "tiltChroma",
+        "min": 0.6,
+        "max": 2.6,
+        "distribution": "uniform",
+        "note": "角度1あたりの色の動く量"
+      },
+      {
+        "name": "tiltAxis",
+        "min": 0.0,
+        "max": 3.14159,
+        "distribution": "uniform",
+        "note": "どの向きの傾きが色を動かすか"
+      },
+      {
+        "name": "colorAmount",
+        "min": 0.22,
+        "max": 0.52,
+        "distribution": "centered",
+        "note": "箔へ寄せる強さ"
+      },
+      {
+        "name": "baseline",
+        "min": 0.08,
+        "max": 0.26,
+        "distribution": "uniform",
+        "note": "暗部にも乗る下限"
+      },
+      {
+        "name": "glareSize",
+        "min": 0.35,
+        "max": 0.95,
+        "distribution": "uniform",
+        "note": "照り返しの広さ"
+      },
+      {
+        "name": "glareAmount",
+        "min": 0.25,
+        "max": 0.65,
+        "distribution": "centered",
+        "note": "照り返しの強さ"
+      },
+      {
+        "name": "cellSparkle",
+        "min": 0.2,
+        "max": 0.75,
+        "distribution": "uniform",
+        "note": "模様の目の瞬き"
+      }
     ],
     "grades": [
-      { "id": "normal", "displayName": "ノーマル", "weight": 70.0, "paramOverrides": {} },
-      { "id": "shiny",  "displayName": "シャイニー", "weight": 25.0,
-        "paramOverrides": { "intensity": [0.70, 0.92], "sparkleDensity": [20.0, 38.0] } },
-      { "id": "prism",  "displayName": "プリズム", "weight": 5.0,
-        "paramOverrides": { "intensity": [0.88, 1.0], "bandDensity": [6.0, 14.0], "sparkleDensity": [32.0, 54.0] } }
+      {
+        "id": "normal",
+        "displayName": "ノーマル",
+        "weight": 70.0,
+        "paramOverrides": {}
+      },
+      {
+        "id": "shiny",
+        "displayName": "シャイニー",
+        "weight": 25.0,
+        "paramOverrides": {
+          "colorAmount": [
+            0.46,
+            0.66
+          ],
+          "patternDepth": [
+            0.34,
+            0.58
+          ],
+          "cellSparkle": [
+            0.55,
+            0.9
+          ]
+        }
+      },
+      {
+        "id": "prism",
+        "displayName": "プリズム",
+        "weight": 5.0,
+        "paramOverrides": {
+          "colorAmount": [
+            0.6,
+            0.8
+          ],
+          "hueSpread": [
+            2.4,
+            5.0
+          ],
+          "tiltChroma": [
+            2.2,
+            4.2
+          ],
+          "patternDepth": [
+            0.44,
+            0.72
+          ],
+          "cellSparkle": [
+            0.7,
+            1.0
+          ]
+        }
+      }
     ]
   },
   {
     "id": "puffy.gloss.v1",
-    "version": 1,
+    "version": 2,
     "displayName": "ぷっくり",
     "material": "puffy",
     "shaderFunction": "fx_puffyGloss",
     "fallbackEffectID": "flat.foil.v1",
     "paramSchema": [
-      { "name": "height",         "min": 0.40, "max": 1.00, "distribution": "centered", "note": "盛り上がりの高さ" },
-      { "name": "glossSharpness", "min": 10.0, "max": 46.0, "distribution": "uniform",  "note": "ハイライトの鋭さ" },
-      { "name": "rimWidth",       "min": 0.15, "max": 0.48, "distribution": "uniform",  "note": "縁の光の幅" },
-      { "name": "specIntensity",  "min": 0.40, "max": 0.90, "distribution": "centered", "note": "ハイライトの強さ" },
-      { "name": "tintHue",        "min": 0.0,  "max": 1.0,  "distribution": "uniform",  "note": "縁にのる色味" },
-      { "name": "refraction",     "min": 0.004,"max": 0.020,"distribution": "uniform",  "note": "厚みによる像のずれ" },
-      { "name": "innerShadow",    "min": 0.10, "max": 0.42, "distribution": "uniform",  "note": "内側の陰の濃さ" }
+      {
+        "name": "domeHeight",
+        "min": 0.45,
+        "max": 1.0,
+        "distribution": "centered",
+        "note": "盛り上がりの高さ"
+      },
+      {
+        "name": "bevelWidth",
+        "min": 0.42,
+        "max": 0.95,
+        "distribution": "centered",
+        "note": "縁から頂部までの幅。距離場の単位で、0.5 でシールの 1 割ほどが斜面"
+      },
+      {
+        "name": "glossSharp",
+        "min": 40.0,
+        "max": 200.0,
+        "distribution": "uniform",
+        "note": "反射の鋭さ"
+      },
+      {
+        "name": "specAmount",
+        "min": 0.55,
+        "max": 0.95,
+        "distribution": "centered",
+        "note": "光沢の強さ"
+      },
+      {
+        "name": "envFreq",
+        "min": 0.35,
+        "max": 1.15,
+        "distribution": "uniform",
+        "note": "映り込む帯の本数。増やしすぎると縁が皺に割れる"
+      },
+      {
+        "name": "envRotation",
+        "min": 0.0,
+        "max": 3.14159,
+        "distribution": "uniform",
+        "note": "映り込みの向き"
+      },
+      {
+        "name": "refraction",
+        "min": 0.02,
+        "max": 0.075,
+        "distribution": "uniform",
+        "note": "縁で像が圧縮される量"
+      },
+      {
+        "name": "rimLight",
+        "min": 0.45,
+        "max": 0.95,
+        "distribution": "uniform",
+        "note": "縁が白く抜ける強さ"
+      },
+      {
+        "name": "innerShadow",
+        "min": 0.14,
+        "max": 0.42,
+        "distribution": "uniform",
+        "note": "影側の縁の濃さ"
+      },
+      {
+        "name": "tintHue",
+        "min": 0.0,
+        "max": 1.0,
+        "distribution": "uniform",
+        "note": "樹脂の色味"
+      },
+      {
+        "name": "tintAmount",
+        "min": 0.0,
+        "max": 0.32,
+        "distribution": "centered",
+        "note": "樹脂の色の濃さ。0 で無色"
+      },
+      {
+        "name": "fresnelPow",
+        "min": 2.2,
+        "max": 5.0,
+        "distribution": "uniform",
+        "note": "縁の白の締まり"
+      }
     ],
     "grades": [
-      { "id": "normal", "displayName": "ノーマル", "weight": 72.0, "paramOverrides": {} },
-      { "id": "shiny",  "displayName": "シャイニー", "weight": 23.0,
-        "paramOverrides": { "specIntensity": [0.78, 0.95], "height": [0.75, 1.0] } },
-      { "id": "prism",  "displayName": "プリズム", "weight": 5.0,
-        "paramOverrides": { "specIntensity": [0.90, 1.0], "height": [0.85, 1.0], "rimWidth": [0.35, 0.55] } }
+      {
+        "id": "normal",
+        "displayName": "ノーマル",
+        "weight": 72.0,
+        "paramOverrides": {}
+      },
+      {
+        "id": "shiny",
+        "displayName": "シャイニー",
+        "weight": 23.0,
+        "paramOverrides": {
+          "specAmount": [
+            0.82,
+            1.0
+          ],
+          "domeHeight": [
+            0.75,
+            1.0
+          ],
+          "rimLight": [
+            0.75,
+            1.0
+          ]
+        }
+      },
+      {
+        "id": "prism",
+        "displayName": "プリズム",
+        "weight": 5.0,
+        "paramOverrides": {
+          "specAmount": [
+            0.9,
+            1.0
+          ],
+          "domeHeight": [
+            0.85,
+            1.0
+          ],
+          "envFreq": [
+            0.95,
+            1.7
+          ],
+          "tintAmount": [
+            0.18,
+            0.4
+          ],
+          "rimLight": [
+            0.85,
+            1.0
+          ]
+        }
+      }
     ]
   },
   {
     "id": "water.capsule.v1",
-    "version": 1,
+    "version": 2,
     "displayName": "水入り",
     "material": "liquid",
     "shaderFunction": "fx_waterCapsule",
     "fallbackEffectID": "puffy.gloss.v1",
     "paramSchema": [
-      { "name": "viscosity",      "min": 0.25, "max": 1.00, "distribution": "uniform",  "note": "粘度。揺れ戻りの遅さ" },
-      { "name": "particleDensity","min": 4.0,  "max": 13.0, "distribution": "uniform",  "note": "封入粒の密度" },
-      { "name": "particleSize",   "min": 0.30, "max": 1.00, "distribution": "centered", "note": "封入粒の大きさ" },
-      { "name": "tintHue",        "min": 0.0,  "max": 1.0,  "distribution": "uniform",  "note": "液体の色味" },
-      { "name": "waveScale",      "min": 1.5,  "max": 6.0,  "distribution": "uniform",  "note": "水面の細かさ" },
-      { "name": "refraction",     "min": 0.010,"max": 0.045,"distribution": "uniform",  "note": "屈折の強さ" },
-      { "name": "driftSpeed",     "min": 0.05, "max": 0.40, "distribution": "uniform",  "note": "粒の漂う速さ" },
-      { "name": "glitterMix",     "min": 0.20, "max": 0.90, "distribution": "centered", "note": "ラメの混ざり具合" }
+      {
+        "name": "viscosity",
+        "min": 0.25,
+        "max": 1.0,
+        "distribution": "uniform",
+        "note": "粘度。揺れ戻りの遅さ"
+      },
+      {
+        "name": "fillRatio",
+        "min": 0.42,
+        "max": 0.78,
+        "distribution": "centered",
+        "note": "液量"
+      },
+      {
+        "name": "tintHue",
+        "min": 0.0,
+        "max": 1.0,
+        "distribution": "uniform",
+        "note": "液体の色"
+      },
+      {
+        "name": "tintDensity",
+        "min": 0.3,
+        "max": 0.95,
+        "distribution": "centered",
+        "note": "液体の濃さ"
+      },
+      {
+        "name": "refraction",
+        "min": 0.018,
+        "max": 0.055,
+        "distribution": "uniform",
+        "note": "屈折の強さ"
+      },
+      {
+        "name": "waveScale",
+        "min": 1.0,
+        "max": 3.0,
+        "distribution": "uniform",
+        "note": "液面の波の細かさ"
+      },
+      {
+        "name": "bubbleCount",
+        "min": 1.0,
+        "max": 5.0,
+        "distribution": "quantized",
+        "steps": 5,
+        "note": "気泡の数"
+      },
+      {
+        "name": "bubbleSize",
+        "min": 0.25,
+        "max": 1.0,
+        "distribution": "centered",
+        "note": "気泡の大きさ"
+      },
+      {
+        "name": "glitterMix",
+        "min": 0.2,
+        "max": 0.85,
+        "distribution": "centered",
+        "note": "ラメの量"
+      },
+      {
+        "name": "glitterFall",
+        "min": 0.06,
+        "max": 0.34,
+        "distribution": "uniform",
+        "note": "ラメの沈む速さ"
+      },
+      {
+        "name": "domeHeight",
+        "min": 0.55,
+        "max": 1.0,
+        "distribution": "centered",
+        "note": "殻の厚み"
+      },
+      {
+        "name": "bevelWidth",
+        "min": 0.38,
+        "max": 0.8,
+        "distribution": "centered",
+        "note": "縁から頂部までの幅。距離場の単位で、0.5 でシールの 1 割ほどが斜面"
+      },
+      {
+        "name": "specAmount",
+        "min": 0.6,
+        "max": 0.95,
+        "distribution": "centered",
+        "note": "殻の光沢"
+      }
     ],
     "grades": [
-      { "id": "normal", "displayName": "ノーマル", "weight": 68.0, "paramOverrides": {} },
-      { "id": "shiny",  "displayName": "シャイニー", "weight": 24.0,
-        "paramOverrides": { "glitterMix": [0.70, 0.95], "particleDensity": [9.0, 16.0] } },
-      { "id": "aurora", "displayName": "オーロラ", "weight": 8.0,
-        "paramOverrides": { "glitterMix": [0.80, 1.0], "particleDensity": [12.0, 20.0], "refraction": [0.035, 0.060] } }
+      {
+        "id": "normal",
+        "displayName": "ノーマル",
+        "weight": 68.0,
+        "paramOverrides": {}
+      },
+      {
+        "id": "shiny",
+        "displayName": "シャイニー",
+        "weight": 24.0,
+        "paramOverrides": {
+          "glitterMix": [
+            0.65,
+            0.95
+          ],
+          "specAmount": [
+            0.82,
+            1.0
+          ]
+        }
+      },
+      {
+        "id": "aurora",
+        "displayName": "オーロラ",
+        "weight": 8.0,
+        "paramOverrides": {
+          "glitterMix": [
+            0.75,
+            1.0
+          ],
+          "specAmount": [
+            0.88,
+            1.0
+          ],
+          "refraction": [
+            0.045,
+            0.08
+          ],
+          "tintDensity": [
+            0.6,
+            1.0
+          ]
+        }
+      }
     ]
   }
 ]
