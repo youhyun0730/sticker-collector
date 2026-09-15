@@ -23,16 +23,27 @@ enum PreviewSubject: String, CaseIterable {
             ctx.setFillColor(CGColor(red: 0.97, green: 0.97, blue: 0.98, alpha: 1))
             ctx.fill(rect)
         case .paleFlat:
-            drawGradient(ctx, rect, [(0.95, 0.95, 0.96), (0.86, 0.87, 0.90)])
-            ctx.setStrokeColor(CGColor(red: 0.74, green: 0.75, blue: 0.79, alpha: 1))
-            ctx.setLineWidth(rect.width * 0.025)
-            ctx.strokeEllipse(in: rect.insetBy(dx: rect.width * 0.3, dy: rect.height * 0.3))
+            drawGradient(ctx, rect, [(0.96, 0.96, 0.97), (0.86, 0.87, 0.90)])
+            // 薄い格子。屈折で縁の像が詰まるかどうかは、直線が曲がる場所でしか読めない。
+            ctx.setFillColor(CGColor(red: 0.74, green: 0.75, blue: 0.79, alpha: 0.55))
+            let step = rect.width / 9
+            let line = max(0.5, rect.width * 0.006)
+            var x = rect.minX + step / 2
+            while x < rect.maxX {
+                ctx.fill(CGRect(x: x, y: rect.minY, width: line, height: rect.height))
+                x += step
+            }
+            var y = rect.minY + step / 2
+            while y < rect.maxY {
+                ctx.fill(CGRect(x: rect.minX, y: y, width: rect.width, height: line))
+                y += step
+            }
         case .sunset:
-            drawGradient(ctx, rect, [(0.10, 0.08, 0.26), (0.56, 0.20, 0.35), (0.96, 0.56, 0.28)])
-            ctx.setFillColor(CGColor(red: 1.0, green: 0.86, blue: 0.55, alpha: 1))
-            ctx.fillEllipse(in: CGRect(x: rect.midX - rect.width * 0.12,
-                                       y: rect.midY - rect.height * 0.32,
-                                       width: rect.width * 0.24, height: rect.width * 0.24))
+            // 暗部から白飛び寸前まで一気に振る縦のグラデーション。
+            // 「物」に見える形は置かない。加工の筋と被写体の輪郭が見分けられなくなる。
+            // 焼き出しは上下が反転するので、アプリ側（上が暗い）と揃うよう逆順で渡す。
+            drawGradient(ctx, rect, [(0.99, 0.74, 0.42), (0.78, 0.33, 0.32),
+                                     (0.32, 0.13, 0.33), (0.07, 0.06, 0.20)])
         case .graphic:
             ctx.setFillColor(CGColor(red: 0.05, green: 0.06, blue: 0.10, alpha: 1))
             ctx.fill(rect)
